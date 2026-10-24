@@ -1,0 +1,389 @@
+{
+  "$id": "https://creatorflow.local/schemas/asset-resolution.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "kind": {
+      "type": "string",
+      "const": "asset-resolution"
+    },
+    "contentId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "manifest": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string",
+            "pattern": "^ast-[a-z0-9-]+$"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "resolved",
+              "text-only-fallback",
+              "font"
+            ]
+          },
+          "file": {
+            "type": "object",
+            "properties": {
+              "root": {
+                "type": "string",
+                "enum": [
+                  "assets",
+                  "project"
+                ]
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "mediaType": {
+                "type": "string"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "registryId": {
+                "type": "string",
+                "pattern": "^ast-[a-z0-9-]+$"
+              }
+            },
+            "required": [
+              "root",
+              "path",
+              "sha256",
+              "mediaType"
+            ],
+            "additionalProperties": false
+          },
+          "video": {
+            "type": "object",
+            "properties": {
+              "container": {
+                "type": "string"
+              },
+              "codec": {
+                "type": "string"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "fps": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "durationSec": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "frames": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "pixelFormat": {
+                "type": "string"
+              },
+              "rotation": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "audio": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "codec": {
+                        "type": "string"
+                      },
+                      "sampleRate": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "channels": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "codec"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "container",
+              "codec",
+              "width",
+              "height",
+              "fps",
+              "durationSec",
+              "rotation",
+              "audio"
+            ],
+            "additionalProperties": false
+          },
+          "clip": {
+            "type": "object",
+            "properties": {
+              "startSec": {
+                "type": "number",
+                "minimum": 0
+              },
+              "endSec": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "fit": {
+                "type": "string",
+                "enum": [
+                  "contain",
+                  "cover"
+                ]
+              }
+            },
+            "required": [
+              "startSec",
+              "endSec",
+              "fit"
+            ],
+            "additionalProperties": false
+          },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "user-created",
+                  "user-provided",
+                  "public-domain-claim",
+                  "open-license-claim",
+                  "unknown"
+                ]
+              },
+              "verification": {
+                "type": "string",
+                "enum": [
+                  "unverified",
+                  "user-attested"
+                ]
+              },
+              "license": {
+                "type": "string"
+              },
+              "attributionRequired": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "origin",
+              "verification",
+              "attributionRequired"
+            ],
+            "additionalProperties": false
+          },
+          "license": {
+            "type": "string"
+          },
+          "attribution": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetId",
+          "kind",
+          "required",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "fonts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "string",
+            "enum": [
+              "heading",
+              "body",
+              "mono"
+            ]
+          },
+          "family": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "license": {
+            "type": "string"
+          },
+          "files": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "root": {
+                  "type": "string",
+                  "enum": [
+                    "fontsource",
+                    "project"
+                  ]
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "weight": {
+                  "type": "integer",
+                  "minimum": 100,
+                  "maximum": 900
+                },
+                "unicodeRange": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "root",
+                "path",
+                "sha256",
+                "weight",
+                "unicodeRange"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "coverage": {
+            "type": "string",
+            "const": "verified"
+          },
+          "checkedCharacters": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "slot",
+          "family",
+          "source",
+          "license",
+          "files",
+          "coverage",
+          "checkedCharacters"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "narration": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "tts",
+            "user-recorded",
+            "none"
+          ]
+        },
+        "audio": {
+          "type": "string",
+          "enum": [
+            "none",
+            "narration-step"
+          ]
+        }
+      },
+      "required": [
+        "mode",
+        "audio"
+      ],
+      "additionalProperties": false
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "kind",
+    "contentId",
+    "manifest",
+    "assets",
+    "fonts",
+    "narration",
+    "warnings"
+  ],
+  "additionalProperties": false
+}

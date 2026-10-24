@@ -1,0 +1,20 @@
+{
+  "name": "@creatorflow/qa",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@creatorflow/core": "0.1.0",
+    "@creatorflow/localization": "0.1.0",
+    "@creatorflow/orchestrator": "0.1.0",
+    "@creatorflow/remotion-studio": "0.1.0",
+    "@creatorflow/schemas": "0.1.0",
+    "@creatorflow/scriptwriter": "0.1.0",
+    "@creatorflow/video-engine": "0.1.0",
+    "@creatorflow/voice": "0.1.0"
+  }
+}

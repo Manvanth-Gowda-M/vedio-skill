@@ -1,0 +1,286 @@
+{
+  "$id": "https://creatorflow.local/schemas/localization-variants.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "kind": {
+      "type": "string",
+      "const": "localization-variants"
+    },
+    "contentId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "script": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "glossary": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "kind": {
+          "type": "string",
+          "const": "terminology-glossary"
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "term": {
+                "type": "string",
+                "minLength": 1
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "product",
+                  "technical",
+                  "brand",
+                  "other"
+                ]
+              },
+              "doNotTranslate": {
+                "type": "boolean"
+              },
+              "pronunciation": {
+                "type": "string"
+              },
+              "preferred": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "languages": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+                }
+              },
+              "notes": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "term",
+              "category",
+              "doNotTranslate",
+              "preferred"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "terms"
+      ],
+      "additionalProperties": false
+    },
+    "variants": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+          },
+          "sourceLanguage": {
+            "type": "string",
+            "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+          },
+          "canonicalScriptSha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "canonical",
+              "same-language",
+              "human-import"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "source",
+              "adapted",
+              "translated"
+            ]
+          },
+          "review": {
+            "type": "string",
+            "enum": [
+              "not-applicable",
+              "unreviewed",
+              "reviewed-claimed-by-importer"
+            ]
+          },
+          "reviewer": {
+            "type": "string"
+          },
+          "translationFile": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "title": {
+            "type": "string"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "segmentId": {
+                  "type": "string",
+                  "pattern": "^seg-\\d{2}-[a-z]+$"
+                },
+                "narration": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "onScreenText": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "claimIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "estimatedSec": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "segmentId",
+                "narration",
+                "onScreenText",
+                "claimIds",
+                "estimatedSec"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "requiredScripts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "error",
+                    "warning",
+                    "info"
+                  ]
+                },
+                "code": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]+$"
+                },
+                "message": {
+                  "type": "string",
+                  "maxLength": 1000
+                },
+                "segmentId": {
+                  "type": "string",
+                  "pattern": "^seg-\\d{2}-[a-z]+$"
+                }
+              },
+              "required": [
+                "severity",
+                "code",
+                "message"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "language",
+          "sourceLanguage",
+          "canonicalScriptSha256",
+          "provider",
+          "status",
+          "review",
+          "title",
+          "segments",
+          "requiredScripts",
+          "issues"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "fontCoverage": {
+      "type": "string",
+      "const": "not-verified"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "kind",
+    "contentId",
+    "script",
+    "glossary",
+    "variants",
+    "fontCoverage"
+  ],
+  "additionalProperties": false
+}

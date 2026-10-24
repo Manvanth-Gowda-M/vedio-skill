@@ -1,0 +1,31 @@
+{
+  "name": "creatorflow-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CreatorFlow: portable, open-source-first AI video production skill and toolkit for coding agents.",
+  "type": "module",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "creatorflow": "node packages/cli/bin/creatorflow.js",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "vitest run tests/e2e",
+    "schemas:build": "node packages/schemas/scripts/build-json-schemas.ts",
+    "check": "npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.5"
+  }
+}

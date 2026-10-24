@@ -1,0 +1,1134 @@
+{
+  "$id": "https://creatorflow.local/schemas/creatorflow.config.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "profilePath": {
+      "default": "creator-profile.json",
+      "type": "string",
+      "minLength": 1
+    },
+    "workspaceDir": {
+      "default": "workspace",
+      "type": "string",
+      "minLength": 1
+    },
+    "hardware": {
+      "default": {
+        "maxConcurrentRenders": 1
+      },
+      "type": "object",
+      "properties": {
+        "maxConcurrentRenders": {
+          "default": 1,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "browserExecutable": {
+          "type": "string"
+        },
+        "ffmpegPath": {
+          "type": "string"
+        },
+        "ffprobePath": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "providers": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "research": {
+          "default": {
+            "id": "manual-sources"
+          },
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "enabled": {
+              "default": true,
+              "type": "boolean"
+            },
+            "paid": {
+              "default": false,
+              "type": "boolean"
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            "timeoutMs": {
+              "default": 60000,
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000
+            },
+            "maxRetries": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "options": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "llm": {
+          "default": {
+            "id": "agent-host"
+          },
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "enabled": {
+              "default": true,
+              "type": "boolean"
+            },
+            "paid": {
+              "default": false,
+              "type": "boolean"
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            "timeoutMs": {
+              "default": 60000,
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000
+            },
+            "maxRetries": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "options": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "tts": {
+          "default": {
+            "id": "none"
+          },
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "enabled": {
+              "default": true,
+              "type": "boolean"
+            },
+            "paid": {
+              "default": false,
+              "type": "boolean"
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            "timeoutMs": {
+              "default": 60000,
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000
+            },
+            "maxRetries": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "options": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "image": {
+          "default": {
+            "id": "none"
+          },
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "enabled": {
+              "default": true,
+              "type": "boolean"
+            },
+            "paid": {
+              "default": false,
+              "type": "boolean"
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            "timeoutMs": {
+              "default": 60000,
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000
+            },
+            "maxRetries": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "options": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "video": {
+          "default": {
+            "id": "none"
+          },
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "enabled": {
+              "default": true,
+              "type": "boolean"
+            },
+            "paid": {
+              "default": false,
+              "type": "boolean"
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            "timeoutMs": {
+              "default": 60000,
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000
+            },
+            "maxRetries": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "options": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "storage": {
+          "default": {
+            "id": "local-fs"
+          },
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "enabled": {
+              "default": true,
+              "type": "boolean"
+            },
+            "paid": {
+              "default": false,
+              "type": "boolean"
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            "timeoutMs": {
+              "default": 60000,
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000
+            },
+            "maxRetries": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "options": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "publishing": {
+          "default": {
+            "id": "package-only"
+          },
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "enabled": {
+              "default": true,
+              "type": "boolean"
+            },
+            "paid": {
+              "default": false,
+              "type": "boolean"
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+            },
+            "timeoutMs": {
+              "default": 60000,
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000
+            },
+            "maxRetries": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "options": {
+              "default": {},
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "budget": {
+      "default": {
+        "currency": "USD",
+        "monthlyLimit": 0,
+        "allowPaidProviders": false
+      },
+      "type": "object",
+      "properties": {
+        "currency": {
+          "default": "USD",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "monthlyLimit": {
+          "default": 0,
+          "type": "number",
+          "minimum": 0
+        },
+        "allowPaidProviders": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "offline": {
+      "default": {
+        "preferOffline": true,
+        "allowNetworkResearch": false
+      },
+      "type": "object",
+      "properties": {
+        "preferOffline": {
+          "default": true,
+          "type": "boolean"
+        },
+        "allowNetworkResearch": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "logging": {
+      "default": {
+        "level": "info"
+      },
+      "type": "object",
+      "properties": {
+        "level": {
+          "default": "info",
+          "type": "string",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "workflow": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "maxAttempts": {
+          "default": 3,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "backoffBaseMs": {
+          "default": 2000,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "backoffMaxMs": {
+          "default": 60000,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "defaultStepTimeoutMs": {
+          "default": 1800000,
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 86400000
+        },
+        "stepTimeoutMs": {
+          "default": {},
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 86400000
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "research": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "weights": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "freshness": {
+              "default": 0.3,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "relevance": {
+              "default": 0.25,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "evidence": {
+              "default": 0.2,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "originality": {
+              "default": 0.15,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "feasibility": {
+              "default": 0.1,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "minSupportedFacts": {
+          "default": 1,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "requireSnapshotMatch": {
+          "default": false,
+          "type": "boolean"
+        },
+        "blockedTerms": {
+          "default": [],
+          "maxItems": 200,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          }
+        },
+        "diversityPenalty": {
+          "default": 10,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "duplicateSimilarity": {
+          "default": 0.6,
+          "type": "number",
+          "minimum": 0.3,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "script": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "provider": {
+          "default": "template",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "speechRateWpm": {
+          "default": {
+            "default": 150
+          },
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^(default|[a-z]{2,3}(-[A-Za-z0-9]{2,8})*)$"
+          },
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 40,
+            "maximum": 400
+          }
+        },
+        "segmentPauseSec": {
+          "default": 0.4,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "minSegmentSec": {
+          "default": 2,
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 10
+        },
+        "minDurationRatio": {
+          "default": 0.6,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "maxDurationRatio": {
+          "default": 1.2,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "onDurationShortfall": {
+          "default": "warn",
+          "type": "string",
+          "enum": [
+            "warn",
+            "block"
+          ]
+        },
+        "callToAction": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "maxExplanationSegments": {
+          "default": 6,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "fps": {
+          "default": 30,
+          "type": "integer",
+          "minimum": 12,
+          "maximum": 120
+        }
+      },
+      "additionalProperties": false
+    },
+    "render": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "codec": {
+          "default": "h264",
+          "type": "string",
+          "const": "h264"
+        },
+        "crf": {
+          "default": 18,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 51
+        },
+        "pixelFormat": {
+          "default": "yuv420p",
+          "type": "string",
+          "enum": [
+            "yuv420p",
+            "yuv444p"
+          ]
+        },
+        "concurrency": {
+          "default": 1,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "captions": {
+          "default": "burn-in",
+          "type": "string",
+          "enum": [
+            "burn-in",
+            "off"
+          ]
+        },
+        "allowBrowserDownload": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "qa": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "maxOutputBytes": {
+          "default": 4294967296,
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 17179869184
+        },
+        "durationToleranceFrames": {
+          "default": 1.5,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "audioDurationToleranceSec": {
+          "default": 0.1,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "sampleEverySec": {
+          "default": 10,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 600
+        },
+        "maxSamples": {
+          "default": 60,
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 200
+        },
+        "blankStdDev": {
+          "default": 2.5,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "blankUniformFraction": {
+          "default": 0.995,
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 1
+        },
+        "safeMargins": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "top": {
+              "default": 0.03,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.3
+            },
+            "bottom": {
+              "default": 0.03,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.3
+            },
+            "left": {
+              "default": 0.04,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.3
+            },
+            "right": {
+              "default": 0.04,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.3
+            }
+          },
+          "additionalProperties": false
+        },
+        "minContrast": {
+          "default": 4.5,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "minFontFraction": {
+          "default": 0.022,
+          "type": "number",
+          "minimum": 0.005,
+          "maximum": 0.2
+        },
+        "speechFloorDbfs": {
+          "default": -45,
+          "type": "number",
+          "minimum": -90,
+          "maximum": -10
+        },
+        "silenceFloorDbfs": {
+          "default": -50,
+          "type": "number",
+          "minimum": -90,
+          "maximum": -10
+        },
+        "maxDropoutMs": {
+          "default": 1000,
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "maxPauseMs": {
+          "default": 3000,
+          "type": "integer",
+          "minimum": 500,
+          "maximum": 60000
+        },
+        "maxClippedRatio": {
+          "default": 0.001,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.1
+        },
+        "maxOutputMbPerMinute": {
+          "default": 400,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "timeoutMs": {
+          "default": 1200000,
+          "type": "integer",
+          "minimum": 10000,
+          "maximum": 14400000
+        }
+      },
+      "additionalProperties": false
+    },
+    "assets": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "maxImageBytes": {
+          "default": 26214400,
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 209715200
+        },
+        "maxVideoBytes": {
+          "default": 536870912,
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 8589934592
+        },
+        "maxVideoDurationSec": {
+          "default": 600,
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 14400
+        },
+        "maxVideoWidth": {
+          "default": 3840,
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 8192
+        },
+        "maxVideoHeight": {
+          "default": 2160,
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 8192
+        },
+        "maxVideoFps": {
+          "default": 120,
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 240
+        },
+        "videoCodecs": {
+          "default": [
+            "h264",
+            "vp8",
+            "vp9"
+          ],
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "h264",
+              "vp8",
+              "vp9",
+              "hevc",
+              "av1"
+            ]
+          }
+        },
+        "decodeCheck": {
+          "default": "full",
+          "type": "string",
+          "enum": [
+            "full",
+            "sample"
+          ]
+        },
+        "probeTimeoutMs": {
+          "default": 180000,
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 3600000
+        }
+      },
+      "additionalProperties": false
+    },
+    "voice": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "sampleRate": {
+          "default": 22050,
+          "type": "integer",
+          "minimum": 8000,
+          "maximum": 48000
+        },
+        "sentencePauseMs": {
+          "default": 250,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3000
+        },
+        "segmentPauseMs": {
+          "default": 450,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "leadInMs": {
+          "default": 200,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3000
+        },
+        "tailMs": {
+          "default": 700,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "minSceneMs": {
+          "default": 1500,
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 10000
+        },
+        "maxSentenceChars": {
+          "default": 600,
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 5000
+        },
+        "maxTotalSec": {
+          "default": 900,
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 7200
+        },
+        "targetPeakDbfs": {
+          "default": -1,
+          "type": "number",
+          "minimum": -20,
+          "maximum": -0.1
+        },
+        "maxGainDb": {
+          "default": 12,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 24
+        },
+        "windowsSapi": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "powershell": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "piper": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "executable": {
+              "type": "string"
+            },
+            "extraArgs": {
+              "default": [],
+              "maxItems": 20,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 500
+              }
+            },
+            "model": {
+              "type": "string"
+            },
+            "speaker": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "localization": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "provider": {
+          "default": "import-only",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "targetLanguages": {
+          "default": "profile",
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "profile"
+            },
+            {
+              "minItems": 1,
+              "maxItems": 20,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+              }
+            }
+          ]
+        },
+        "subtitles": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "maxCharsPerLine": {
+              "default": 42,
+              "type": "integer",
+              "minimum": 10,
+              "maximum": 80
+            },
+            "maxLines": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "maxCps": {
+              "default": 17,
+              "type": "number",
+              "minimum": 5,
+              "maximum": 40
+            },
+            "minCueMs": {
+              "default": 1000,
+              "type": "integer",
+              "minimum": 300,
+              "maximum": 5000
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion"
+  ],
+  "additionalProperties": false
+}

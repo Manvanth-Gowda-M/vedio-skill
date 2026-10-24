@@ -1,0 +1,288 @@
+{
+  "$id": "https://creatorflow.local/schemas/weekly-plan.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "weekId": {
+      "type": "string",
+      "pattern": "^\\d{4}-W(0[1-9]|[1-4]\\d|5[0-3])$"
+    },
+    "items": {
+      "minItems": 1,
+      "maxItems": 14,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "contentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60,
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "publishDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "topic": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "audienceProblem": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 1000
+          },
+          "angle": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          },
+          "sourceIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "hook": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 300
+          },
+          "takeaway": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 300
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "news",
+              "explainer",
+              "tutorial",
+              "comparison",
+              "experiment",
+              "recap"
+            ]
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "youtube-long",
+              "youtube-shorts",
+              "instagram-reels",
+              "tiktok",
+              "linkedin-video"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+          },
+          "durationSec": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 7200
+          },
+          "requiredAssets": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "estimatedEffort": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "qualityRequirements": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "workingTitle": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 150
+          },
+          "aspectRatio": {
+            "type": "string",
+            "enum": [
+              "9:16",
+              "16:9",
+              "1:1",
+              "4:5"
+            ]
+          },
+          "research": {
+            "type": "object",
+            "properties": {
+              "sessionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "candidateId": {
+                "type": "string",
+                "pattern": "^cand-[a-z0-9-]+$"
+              },
+              "scoringModel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "eligibility": {
+                "type": "string",
+                "const": "eligible"
+              },
+              "evidenceHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "sources": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "contentHash": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "contentHash"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "claims": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "claimId": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "fact",
+                        "interpretation",
+                        "hypothesis"
+                      ]
+                    },
+                    "support": {
+                      "type": "string",
+                      "enum": [
+                        "supported",
+                        "supported-unchecked",
+                        "weak",
+                        "unsupported",
+                        "interpretation",
+                        "hypothesis"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "claimId",
+                    "kind",
+                    "support"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "sessionId",
+              "candidateId",
+              "scoringModel",
+              "score",
+              "eligibility",
+              "evidenceHash",
+              "sources",
+              "claims"
+            ],
+            "additionalProperties": false
+          },
+          "scriptRequirements": {
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            }
+          },
+          "caveats": {
+            "maxItems": 30,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "openQuestions": {
+            "maxItems": 30,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "contentId",
+          "publishDate",
+          "topic",
+          "category",
+          "platform",
+          "language",
+          "durationSec"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 4000
+    }
+  },
+  "required": [
+    "weekId",
+    "items"
+  ],
+  "additionalProperties": false
+}

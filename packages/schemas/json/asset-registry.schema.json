@@ -1,0 +1,382 @@
+{
+  "$id": "https://creatorflow.local/schemas/asset-registry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "schemaVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "kind": {
+          "type": "string",
+          "const": "asset-registry"
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "jobId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "assetId": {
+                "type": "string",
+                "pattern": "^ast-[a-z0-9-]+$"
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "license": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "attribution": {
+                "type": "string",
+                "maxLength": 300
+              },
+              "source": {
+                "type": "string",
+                "maxLength": 500
+              }
+            },
+            "required": [
+              "jobId",
+              "assetId",
+              "path",
+              "sha256",
+              "license"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "assets"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "schemaVersion": {
+          "type": "number",
+          "const": 2
+        },
+        "kind": {
+          "type": "string",
+          "const": "asset-registry"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^ast-[a-z0-9-]+$"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "diagram",
+                  "screenshot",
+                  "code-snippet",
+                  "logo",
+                  "icon",
+                  "screen-recording",
+                  "b-roll",
+                  "other"
+                ]
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "media": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "image",
+                      "video",
+                      "text"
+                    ]
+                  },
+                  "mediaType": {
+                    "type": "string"
+                  },
+                  "width": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  },
+                  "video": {
+                    "type": "object",
+                    "properties": {
+                      "container": {
+                        "type": "string"
+                      },
+                      "codec": {
+                        "type": "string"
+                      },
+                      "width": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "height": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "fps": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "durationSec": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "frames": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "pixelFormat": {
+                        "type": "string"
+                      },
+                      "rotation": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "audio": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "codec": {
+                                "type": "string"
+                              },
+                              "sampleRate": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "channels": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "codec"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "container",
+                      "codec",
+                      "width",
+                      "height",
+                      "fps",
+                      "durationSec",
+                      "rotation",
+                      "audio"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "kind",
+                  "mediaType"
+                ],
+                "additionalProperties": false
+              },
+              "provenance": {
+                "type": "object",
+                "properties": {
+                  "origin": {
+                    "type": "string",
+                    "enum": [
+                      "user-created",
+                      "user-provided",
+                      "public-domain-claim",
+                      "open-license-claim",
+                      "unknown"
+                    ]
+                  },
+                  "creator": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "sourceUrl": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "license": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "attribution": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  "attributionRequired": {
+                    "type": "boolean"
+                  },
+                  "obtainedAt": {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                  },
+                  "verification": {
+                    "type": "string",
+                    "enum": [
+                      "unverified",
+                      "user-attested"
+                    ]
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 1000
+                  }
+                },
+                "required": [
+                  "origin",
+                  "attributionRequired",
+                  "verification"
+                ],
+                "additionalProperties": false
+              },
+              "registeredAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+              },
+              "uses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                    },
+                    "assetId": {
+                      "type": "string",
+                      "pattern": "^ast-[a-z0-9-]+$"
+                    },
+                    "clip": {
+                      "type": "object",
+                      "properties": {
+                        "startSec": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "endSec": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "fit": {
+                          "type": "string",
+                          "enum": [
+                            "contain",
+                            "cover"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "startSec",
+                        "fit"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "jobId",
+                    "assetId"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "path",
+              "sha256",
+              "provenance",
+              "registeredAt",
+              "updatedAt",
+              "uses"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "revision",
+        "assets"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

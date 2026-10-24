@@ -1,0 +1,530 @@
+{
+  "$id": "https://creatorflow.local/schemas/narration.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "kind": {
+      "type": "string",
+      "const": "narration"
+    },
+    "jobId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "contentId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "script": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "manifest": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "silent",
+        "generated"
+      ]
+    },
+    "requested": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "tts",
+            "user-recorded",
+            "none"
+          ]
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "voiceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "speakingRate": {
+          "type": "number"
+        },
+        "language": {
+          "type": "string",
+          "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+        }
+      },
+      "required": [
+        "mode",
+        "provider",
+        "voiceId",
+        "speakingRate",
+        "language"
+      ],
+      "additionalProperties": false
+    },
+    "provider": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "engine": {
+          "type": "string"
+        },
+        "offline": {
+          "type": "boolean",
+          "const": true
+        },
+        "voice": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "language": {
+              "type": "string"
+            },
+            "gender": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "language"
+          ],
+          "additionalProperties": false
+        },
+        "license": {
+          "type": "object",
+          "properties": {
+            "engine": {
+              "type": "string"
+            },
+            "voice": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "engine",
+            "voice",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "engine",
+        "offline",
+        "voice",
+        "license"
+      ],
+      "additionalProperties": false
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "speakingRate": {
+          "type": "object",
+          "properties": {
+            "requested": {
+              "type": "number"
+            },
+            "applied": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "requested",
+            "applied"
+          ],
+          "additionalProperties": false
+        },
+        "sampleRate": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "channels": {
+          "type": "number",
+          "const": 1
+        },
+        "bitsPerSample": {
+          "type": "number",
+          "const": 16
+        },
+        "sentencePauseMs": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "segmentPauseMs": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "leadInMs": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "tailMs": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "gainDb": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "speakingRate",
+        "sampleRate",
+        "channels",
+        "bitsPerSample",
+        "sentencePauseMs",
+        "segmentPauseMs",
+        "leadInMs",
+        "tailMs",
+        "gainDb"
+      ],
+      "additionalProperties": false
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 45,
+          "maximum": 9007199254740991
+        },
+        "format": {
+          "type": "string",
+          "const": "wav-pcm-s16le"
+        },
+        "sampleRate": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "channels": {
+          "type": "number",
+          "const": 1
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "peakDbfs": {
+          "type": "number"
+        },
+        "rmsDbfs": {
+          "type": "number"
+        },
+        "clippedSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "format",
+        "sampleRate",
+        "channels",
+        "durationMs",
+        "peakDbfs",
+        "rmsDbfs",
+        "clippedSamples"
+      ],
+      "additionalProperties": false
+    },
+    "timing": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "estimated",
+            "sentence-aligned",
+            "word-aligned"
+          ]
+        },
+        "fps": {
+          "type": "integer",
+          "minimum": 12,
+          "maximum": 120
+        },
+        "durationInFrames": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "scenes": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sceneId": {
+                "type": "string",
+                "pattern": "^scn-\\d{2}$"
+              },
+              "startFrame": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "durationInFrames": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "sceneId",
+              "startFrame",
+              "durationInFrames"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "fps",
+        "durationInFrames",
+        "durationMs",
+        "scenes",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segmentId": {
+            "type": "string",
+            "pattern": "^seg-\\d{2}-[a-z]+$"
+          },
+          "sceneId": {
+            "type": "string",
+            "pattern": "^scn-\\d{2}$"
+          },
+          "startMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "endMs": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "sentences": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "spoken": {
+                  "type": "string"
+                },
+                "startMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "endMs": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "speechStartMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "speechEndMs": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "index",
+                "text",
+                "startMs",
+                "endMs",
+                "speechStartMs",
+                "speechEndMs"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "segmentId",
+          "sceneId",
+          "startMs",
+          "endMs",
+          "sentences"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "pronunciations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "term": {
+            "type": "string"
+          },
+          "pronunciation": {
+            "type": "string"
+          },
+          "occurrences": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "term",
+          "pronunciation",
+          "occurrences"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "subtitles": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "kind",
+    "jobId",
+    "contentId",
+    "script",
+    "manifest",
+    "status",
+    "requested",
+    "timing",
+    "segments",
+    "pronunciations",
+    "subtitles",
+    "warnings"
+  ],
+  "additionalProperties": false
+}

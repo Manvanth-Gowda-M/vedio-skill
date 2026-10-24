@@ -1,0 +1,738 @@
+{
+  "$id": "https://creatorflow.local/schemas/render-report.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "kind": {
+      "type": "string",
+      "const": "render-report"
+    },
+    "jobId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "contentId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "plan": {
+      "type": "object",
+      "properties": {
+        "weekId": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "weekId",
+        "version",
+        "contentHash"
+      ],
+      "additionalProperties": false
+    },
+    "sceneManifest": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "renderer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "const": "creatorflow-remotion"
+        },
+        "version": {
+          "type": "string"
+        },
+        "remotion": {
+          "type": "string"
+        },
+        "browser": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "remotion",
+        "browser"
+      ],
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "additionalProperties": false
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "height": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "fps": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "durationInFrames": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "durationSec": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "fps",
+        "durationInFrames",
+        "durationSec"
+      ],
+      "additionalProperties": false
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "codec": {
+          "type": "string",
+          "const": "h264"
+        },
+        "crf": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 51
+        },
+        "pixelFormat": {
+          "type": "string",
+          "enum": [
+            "yuv420p",
+            "yuv444p"
+          ]
+        },
+        "concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "captions": {
+          "type": "string",
+          "enum": [
+            "burn-in",
+            "off"
+          ]
+        },
+        "chromeMode": {
+          "type": "string",
+          "enum": [
+            "headless-shell",
+            "chrome-for-testing"
+          ]
+        }
+      },
+      "required": [
+        "codec",
+        "crf",
+        "pixelFormat",
+        "concurrency",
+        "captions",
+        "chromeMode"
+      ],
+      "additionalProperties": false
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+    },
+    "renderDurationMs": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "process": {
+      "type": "object",
+      "properties": {
+        "exitCode": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "exitCode"
+      ],
+      "additionalProperties": false
+    },
+    "status": {
+      "type": "string",
+      "const": "rendered"
+    },
+    "mediaInspection": {
+      "type": "object",
+      "properties": {
+        "performed": {
+          "type": "boolean"
+        },
+        "tool": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "container": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "boxes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "problem": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "ok",
+            "boxes"
+          ],
+          "additionalProperties": false
+        },
+        "video": {
+          "type": "object",
+          "properties": {
+            "codec": {
+              "type": "string"
+            },
+            "width": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "height": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "fps": {
+              "type": "number"
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "durationSec": {
+              "type": "number"
+            },
+            "pixelFormat": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "codec",
+            "width",
+            "height",
+            "fps",
+            "durationSec"
+          ],
+          "additionalProperties": false
+        },
+        "audioStreams": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "audio": {
+          "type": "object",
+          "properties": {
+            "codec": {
+              "type": "string"
+            },
+            "sampleRate": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "channels": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "durationSec": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "codec"
+          ],
+          "additionalProperties": false
+        },
+        "matchesRequest": {
+          "type": "boolean"
+        },
+        "mismatches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "performed",
+        "container",
+        "mismatches"
+      ],
+      "additionalProperties": false
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "present": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "string",
+          "enum": [
+            "none",
+            "narration"
+          ]
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "durationMs": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "sampleRate": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "channels": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "durationMs",
+            "sampleRate",
+            "channels"
+          ],
+          "additionalProperties": false
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "check": {
+                "type": "string"
+              },
+              "ok": {
+                "type": "boolean"
+              },
+              "detail": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "check",
+              "ok",
+              "detail"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "present",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "captions": {
+      "type": "object",
+      "properties": {
+        "burnedIn": {
+          "type": "boolean"
+        },
+        "timing": {
+          "type": "string",
+          "enum": [
+            "estimated",
+            "sentence-aligned",
+            "word-aligned"
+          ]
+        },
+        "cues": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "problems": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "problems"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "burnedIn",
+        "timing"
+      ],
+      "additionalProperties": false
+    },
+    "narration": {
+      "type": "object",
+      "properties": {
+        "requested": {
+          "type": "string",
+          "enum": [
+            "tts",
+            "user-recorded",
+            "none"
+          ]
+        },
+        "configuredProvider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "generated": {
+          "type": "boolean"
+        },
+        "provider": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "voice": {
+              "type": "string"
+            },
+            "language": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "version",
+            "voice",
+            "language"
+          ],
+          "additionalProperties": false
+        },
+        "settings": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        },
+        "licenseNotes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "requested",
+        "configuredProvider",
+        "generated"
+      ],
+      "additionalProperties": false
+    },
+    "videoClips": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sceneId": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "string",
+            "pattern": "^ast-[a-z0-9-]+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "startSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "endSec": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "fit": {
+            "type": "string",
+            "enum": [
+              "contain",
+              "cover"
+            ]
+          },
+          "playSec": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "holdSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "sourceAudio": {
+            "type": "string",
+            "enum": [
+              "none",
+              "muted"
+            ]
+          }
+        },
+        "required": [
+          "sceneId",
+          "assetId",
+          "sha256",
+          "startSec",
+          "endSec",
+          "fit",
+          "playSec",
+          "holdSec",
+          "sourceAudio"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "registryId": {
+            "type": "string"
+          },
+          "license": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          },
+          "verification": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetId",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "fonts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "string"
+          },
+          "family": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string",
+            "const": "verified"
+          }
+        },
+        "required": [
+          "slot",
+          "family",
+          "coverage"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "technicalQa": {
+      "type": "string",
+      "const": "pending"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "kind",
+    "jobId",
+    "contentId",
+    "plan",
+    "sceneManifest",
+    "request",
+    "renderer",
+    "output",
+    "expected",
+    "settings",
+    "startedAt",
+    "completedAt",
+    "renderDurationMs",
+    "process",
+    "status",
+    "mediaInspection",
+    "audio",
+    "captions",
+    "assets",
+    "fonts",
+    "warnings",
+    "errors",
+    "technicalQa"
+  ],
+  "additionalProperties": false
+}

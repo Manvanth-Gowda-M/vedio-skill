@@ -1,0 +1,21 @@
+{
+  "profile": {
+    "creator": {
+      "displayName": "Example Dev Channel",
+      "niche": "AI tools, coding agents, and developer technology",
+      "topics": ["AI coding agents", "developer tools", "model and API releases"],
+      "audience": {
+        "description": "Working developers who want accurate, practical AI tooling updates",
+        "expertise": "intermediate"
+      }
+    },
+    "languages": { "primary": "en", "additional": ["hi"] },
+    "platforms": { "primary": "youtube-shorts", "secondary": ["youtube-long", "instagram-reels"] },
+    "brand": { "name": "Example Dev Channel" },
+    "schedule": { "timezone": "Asia/Kolkata", "weeklyTarget": 7 }
+  },
+  "config": {
+    "workspaceDir": "workspace",
+    "budget": { "currency": "USD", "monthlyLimit": 0, "allowPaidProviders": false }
+  }
+}

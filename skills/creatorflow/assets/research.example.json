@@ -1,0 +1,102 @@
+{
+  "$schema": "../../../packages/schemas/json/research-input.schema.json",
+  "sessionTopic": "EXAMPLE ONLY: fictional tools on example.* domains. Replace with real sources you have read.",
+  "sources": [
+    {
+      "key": "s-docs",
+      "url": "https://docs.example.com/agent-hooks/",
+      "title": "Agent hooks (fictional docs)",
+      "publisher": "Example Tools",
+      "sourceType": "official-documentation",
+      "publishedAt": "2026-09-01",
+      "retrievedAt": "2026-10-24",
+      "attribution": "Example Tools documentation"
+    },
+    {
+      "key": "s-release",
+      "url": "https://blog.example.com/release-2-0?utm_source=newsletter",
+      "title": "Version 2.0 released (fictional)",
+      "publisher": "Example Tools",
+      "sourceType": "official-announcement",
+      "publishedAt": "2026-10-20",
+      "retrievedAt": "2026-10-24"
+    },
+    {
+      "key": "s-forum",
+      "url": "https://forum.example.net/t/123",
+      "title": "Rumour thread (fictional)",
+      "sourceType": "community",
+      "publishedAt": "2026-10-24"
+    }
+  ],
+  "claims": [
+    {
+      "key": "c-hooks",
+      "kind": "fact",
+      "text": "Hooks run before and after each tool call.",
+      "evidence": [
+        {
+          "source": "s-docs",
+          "excerpt": "Hooks run before and after each tool call",
+          "locator": "#agent-hooks"
+        }
+      ]
+    },
+    {
+      "key": "c-subagents",
+      "kind": "fact",
+      "text": "Version 2.0 adds parallel subagents.",
+      "evidence": [
+        {
+          "source": "s-release",
+          "excerpt": "Version 2.0 adds parallel subagents"
+        }
+      ]
+    },
+    {
+      "key": "c-rumor",
+      "kind": "fact",
+      "text": "Version 3.0 ships next week.",
+      "evidence": [
+        {
+          "source": "s-forum",
+          "kind": "paraphrase"
+        }
+      ]
+    },
+    {
+      "key": "c-opinion",
+      "kind": "interpretation",
+      "text": "Hooks are the most underrated agent feature."
+    }
+  ],
+  "candidates": [
+    {
+      "key": "hooks-explained",
+      "topic": "Agent hooks explained",
+      "category": "explainer",
+      "workingTitle": "What agent hooks actually do",
+      "hook": "Your agent runs code you never see.",
+      "claims": [
+        "c-hooks",
+        "c-opinion"
+      ]
+    },
+    {
+      "key": "subagents-release",
+      "topic": "Version 2.0 brings parallel subagents to coding agents",
+      "category": "news",
+      "claims": [
+        "c-subagents"
+      ]
+    },
+    {
+      "key": "rumor-news",
+      "topic": "Version 3.0 rumoured for next week",
+      "category": "news",
+      "claims": [
+        "c-rumor"
+      ]
+    }
+  ]
+}

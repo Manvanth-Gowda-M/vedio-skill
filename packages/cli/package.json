@@ -1,0 +1,26 @@
+{
+  "name": "@creatorflow/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "creatorflow": "./bin/creatorflow.js"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@creatorflow/core": "0.1.0",
+    "@creatorflow/localization": "0.1.0",
+    "@creatorflow/qa": "0.1.0",
+    "@creatorflow/orchestrator": "0.1.0",
+    "@creatorflow/research": "0.1.0",
+    "@creatorflow/schemas": "0.1.0",
+    "@creatorflow/scriptwriter": "0.1.0",
+    "@creatorflow/video-engine": "0.1.0",
+    "@creatorflow/voice": "0.1.0",
+    "commander": "15.0.0",
+    "yaml": "2.9.1"
+  }
+}
+

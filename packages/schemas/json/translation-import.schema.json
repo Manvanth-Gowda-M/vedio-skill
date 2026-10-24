@@ -1,0 +1,134 @@
+{
+  "$id": "https://creatorflow.local/schemas/translation-import.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "const": "translation"
+    },
+    "contentId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|[0-9]{3}))?$"
+    },
+    "canonicalScriptSha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "translator": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "human",
+            "machine-assisted-human-edited"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "method"
+      ],
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "reviewer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "reviewedAt": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      },
+      "required": [
+        "reviewer",
+        "reviewedAt"
+      ],
+      "additionalProperties": false
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 150
+    },
+    "instructions": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "segments": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segmentId": {
+            "type": "string",
+            "pattern": "^seg-\\d{2}-[a-z]+$"
+          },
+          "narration": {
+            "type": "string",
+            "maxLength": 3000
+          },
+          "onScreenText": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "narration": {
+                "type": "string"
+              },
+              "onScreenText": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "narration",
+              "onScreenText"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "segmentId",
+          "narration",
+          "onScreenText"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "kind",
+    "contentId",
+    "language",
+    "canonicalScriptSha256",
+    "translator",
+    "segments"
+  ],
+  "additionalProperties": false
+}

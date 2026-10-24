@@ -1,0 +1,1 @@
+{ "name": "@creatorflow/remotion-studio", "version": "0.1.0", "private": true, "type": "module", "exports": { ".": "./src/props.ts", "./package.json": "./package.json" }, "dependencies": { "remotion": "4.0.538", "react": "19.3.1", "react-dom": "19.3.1" } }

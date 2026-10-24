@@ -1,0 +1,15 @@
+{
+  "name": "@creatorflow/localization",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@creatorflow/core": "0.1.0",
+    "@creatorflow/orchestrator": "0.1.0",
+    "@creatorflow/schemas": "0.1.0",
+    "@creatorflow/scriptwriter": "0.1.0"
+  }
+}
